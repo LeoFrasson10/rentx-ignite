@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -14,7 +14,7 @@ import {
   CarList
 } from './styles';
 
-export function Home(){
+export function Home({ navigation: { navigate, goBack } }: any){
   const carData = {
     brand: 'Audi',
     name: 'RS 5 Coupé',
@@ -24,6 +24,11 @@ export function Home(){
     },
     thumbnail: 'https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png'      
   }
+
+  const handleCardDetails = useCallback(() => {
+    navigate('CarDetails')
+  }, [])
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor='transparent' translucent/>
@@ -37,9 +42,9 @@ export function Home(){
         </HeaderContent>
       </Header>
       <CarList 
-        data={[1,2,3,4,5,6,7,8,9]}
+        data={[1,2,3,4,5,6,7,8,9]}        
         keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Car data={carData} />}
+        renderItem={({ item }) => <Car data={carData} onPress={handleCardDetails} />}
       />
     </Container>
   );

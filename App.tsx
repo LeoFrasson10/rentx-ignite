@@ -1,6 +1,8 @@
 
+import 'react-native-gesture-handler'
 import React from 'react';
 import AppLoading from 'expo-app-loading';
+import { Routes } from './src/routes';
 import { ThemeProvider } from 'styled-components/native';
 
 import {
@@ -16,10 +18,6 @@ import {
 } from '@expo-google-fonts/archivo'
 
 import theme from './src/styles/theme';
-
-import { Home } from './src/screens/Home';
-import { CarDetails } from './src/screens/CarDetails';
-import { Scheduling } from './src/screens/Scheduling';
 
 
 export default function App() {
@@ -38,7 +36,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Scheduling />
+      <Routes />
     </ThemeProvider>
   );
 }

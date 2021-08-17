@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback} from 'react';
+import { Feather } from '@expo/vector-icons';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
@@ -23,21 +24,33 @@ import {
   Rent,
   Period,
   Price,
-  About,
   Acessories,
-  Footer
+  Footer,
+  RentalPeriod,
+  CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RentalPrice,
+  RentalPriceLabel,
+  RentalPriceDetails,
+  RentalPriceQuota,
+  RentalPriceTotal,
 } from './styles';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
-export function CarDetails({ navigation: { navigate, goBack } }: any){
+export function SchedulingDetails({ navigation: { navigate, goBack } }: any){
+  const theme = useTheme()
 
-  const handleConfirmRental = useCallback(() => {
-    navigate('Scheduling')
+  const handleConfirm = useCallback(() => {
+    navigate('SchedulingComplete')
   }, [])
 
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => goBack()} />
+        <BackButton onPress={ () => goBack()} />
       </Header>
       <CarImages>
         <ImageSlider imagesUrl={['https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png']} />
@@ -65,14 +78,34 @@ export function CarDetails({ navigation: { navigate, goBack } }: any){
 
         </Acessories>
 
-        <About>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas modi amet 
-          facilis provident quas cupiditate, ut nobis iusto, necessitatibus non nemo dolores 
-          repellendus tenetur, odio quam assumenda consequatur soluta! Architecto?
-        </About>
+        <RentalPeriod>
+          <CalendarIcon>
+            <Feather name="calendar" size={RFValue(24)} color={theme.colors.shape.primary} />
+          </CalendarIcon>
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>16/08/2021</DateValue>
+          </DateInfo>
+
+          <Feather name="chevron-right" size={RFValue(12)} color={theme.colors.text.primary} />
+
+          <DateInfo>
+            <DateTitle>ATÉ</DateTitle>
+            <DateValue>18/08/2021</DateValue>
+          </DateInfo>
+        </RentalPeriod>
+
+        <RentalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RentalPriceDetails>
+            <RentalPriceQuota>R$ 580 x3 diárias</RentalPriceQuota>
+            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+          </RentalPriceDetails>
+        </RentalPrice>
+
       </Content>
       <Footer>
-        <Button title="Escolha período do aluguel" onPress={handleConfirmRental} />
+        <Button title="Alugar agorar" onPress={handleConfirm} color={theme.colors.success.primary} />
       </Footer>
     </Container>
   );

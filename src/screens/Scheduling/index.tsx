@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback} from 'react';
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components';
 import { BackButton } from '../../components/BackButton';
@@ -17,14 +17,20 @@ import {
   Footer
 } from './styles';
 import { Button } from '../../components/Button';
+import { Calendar } from '../../components/Calendar';
 
-export function Scheduling(){
+export function Scheduling({ navigation: { navigate, goBack } }: any){
   const theme = useTheme()
+
+  const handleConfirmRental = useCallback(() => {
+    navigate('SchedulingDetails')
+  }, [])
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor='transparent' translucent />
       <Header>
-        <BackButton onPress={ () => {} } color={theme.colors.shape.primary} />
+        <BackButton onPress={() => goBack()} color={theme.colors.shape.primary} />
 
         <Title>
           Escolha uma{`\n`}
@@ -49,11 +55,11 @@ export function Scheduling(){
       </Header>
 
       <Content>
-
+        <Calendar />
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button title="Confirmar" onPress={handleConfirmRental} />
       </Footer>
 
 
