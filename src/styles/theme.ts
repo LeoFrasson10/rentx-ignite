@@ -15,6 +15,7 @@ export default {
       primary: '#dc1637',
       light: '#fdedef'
     },
+    main_light: '#fdedef',
     success: {
       primary: '#03b252'
     }, 

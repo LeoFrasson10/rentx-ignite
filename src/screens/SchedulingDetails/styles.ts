@@ -39,7 +39,7 @@ export const Details = styled.View`
 
 export const Description = styled.View``
 
-export const Brend = styled.Text`
+export const Brand = styled.Text`
   font-family: ${({ theme }) => theme.fonts.secondary_500};
   color: ${({ theme }) => theme.colors.text.detail};
   font-size: ${RFValue(10)}px;
@@ -69,7 +69,7 @@ export const Price = styled.Text`
   font-size: ${RFValue(25)}px;
 `
 
-export const Acessories = styled.View`
+export const Accessories = styled.View`
   width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
