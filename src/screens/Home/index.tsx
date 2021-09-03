@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, BackHandler } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
@@ -30,40 +30,40 @@ export function Home({ navigation: { navigate, goBack } }: any){
   const [loading, setLoading] = useState(true)
   const theme = useTheme()
 
-  const positionY = useSharedValue(0)
-  const positionX = useSharedValue(0)
+  // const positionY = useSharedValue(0)
+  // const positionX = useSharedValue(0)
 
-  const myCarsButtonStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {translateX: positionX.value}, 
-        {translateY: positionY.value}
-      ]
-    }
-  })
+  // const myCarsButtonStyle = useAnimatedStyle(() => {
+  //   return {
+  //     transform: [
+  //       {translateX: positionX.value}, 
+  //       {translateY: positionY.value}
+  //     ]
+  //   }
+  // })
   
-  const onGestureEvent = useAnimatedGestureHandler({
-    onStart(_, ctx: any){
-      ctx.positionX = positionX.value;
-      ctx.positionY = positionY.value;
-    },
-    onActive(event, ctx: any){
-      positionX.value = ctx.positionX + event.translationX;
-      positionY.value = ctx.positionY + event.translationY;
-    },
-    onEnd(){
-      positionX.value = withSpring(0);
-      positionY.value = withSpring(0);
-    }
-  })
+  // const onGestureEvent = useAnimatedGestureHandler({
+  //   onStart(_, ctx: any){
+  //     ctx.positionX = positionX.value;
+  //     ctx.positionY = positionY.value;
+  //   },
+  //   onActive(event, ctx: any){
+  //     positionX.value = ctx.positionX + event.translationX;
+  //     positionY.value = ctx.positionY + event.translationY;
+  //   },
+  //   onEnd(){
+  //     positionX.value = withSpring(0);
+  //     positionY.value = withSpring(0);
+  //   }
+  // })
 
   const handleCardDetails = useCallback((car: CarDTO) => () => {
     navigate('CarDetails', { car })
   }, [])
 
-  const handleOpenMyCars = useCallback(() => {
-    navigate('MyCars')
-  }, [])
+  // const handleOpenMyCars = useCallback(() => {
+  //   navigate('MyCars')
+  // }, [])
 
   const fetchCars = useCallback(async () => {
     try {
@@ -80,11 +80,11 @@ export function Home({ navigation: { navigate, goBack } }: any){
     fetchCars()
   }, [])
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true
-    })
-  }, [])
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', () => {
+  //     return true
+  //   })
+  // }, [])
 
   return (
     <Container>
@@ -109,7 +109,7 @@ export function Home({ navigation: { navigate, goBack } }: any){
           renderItem={({ item }) => <Car data={item} onPress={handleCardDetails(item)} />}
         />
       )}
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
+      {/* <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View
           style={[
             myCarsButtonStyle,
@@ -124,17 +124,17 @@ export function Home({ navigation: { navigate, goBack } }: any){
             <Ionicons name="ios-car-sport" size={32} color={theme.colors.shape.primary} />
           </ButtonAnimated>
         </Animated.View>
-      </PanGestureHandler>
+      </PanGestureHandler> */}
     </Container>
   );
 }
 
-const styles = StyleSheet.create({
-  button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center'
-  } 
-})
+// const styles = StyleSheet.create({
+//   button: {
+//     width: 60,
+//     height: 60,
+//     borderRadius: 30,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   } 
+// })

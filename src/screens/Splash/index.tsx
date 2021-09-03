@@ -36,7 +36,7 @@ export function Splash({ navigation: { navigate } }: any){
   })
 
   function startApp() {
-    navigate("Home")
+    navigate("SignIn")
   }
 
   useEffect(() => {

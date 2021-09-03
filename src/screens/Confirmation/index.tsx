@@ -12,13 +12,22 @@ import {
   Message,
   Footer
 } from './styles';
+import { useRoute } from '@react-navigation/native';
+
+interface Params {
+  title: string;
+  message: string;
+  nextScreenRoute: string;
+}
 
 
-export function SchedulingComplete({ navigation: { navigate } }: any){
+export function Confirmation({ navigation }: any){
   const { width } = useWindowDimensions()  
+  const route = useRoute()
+  const { title, message, nextScreenRoute } = route.params as Params;
 
   const handleConfirm = useCallback(() => {
-    navigate('Home');
+    navigation.navigate(nextScreenRoute);
   }, [])
   
   return (
@@ -29,12 +38,10 @@ export function SchedulingComplete({ navigation: { navigate } }: any){
       <Content>
         <DoneSvg width={80} height={80} />
 
-        <Title>Carro alugado</Title>
+        <Title>{title}</Title>
 
         <Message>
-          Agora você só precisa ir{`\n`}
-          até a concessionário da RENTX{`\n`}
-          pegar o seu automóvel.
+          {message}
         </Message>
       </Content>
 
