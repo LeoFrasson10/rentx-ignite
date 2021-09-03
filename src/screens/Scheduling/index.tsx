@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { format, parseISO } from 'date-fns'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components';
 import { BackButton } from '../../components/BackButton';
 import { Calendar, DayProps, generateInterval, MarkedDateProps } from '../../components/Calendar';
@@ -43,15 +43,13 @@ export function Scheduling({ navigation: { navigate, goBack } }: any){
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodProps>({} as RentalPeriodProps)
 
   const handleConfirmRental = useCallback(() => {
-    if(!rentalPeriod.startFormatted || !rentalPeriod.endFormatted){
-      Alert.alert('Selecione o intervalo para alugar.')
-    } else {
-      navigate('SchedulingDetails', {
-        car,
-        dates: Object.keys(markedDates)
-      })
-    }
-  }, [rentalPeriod])
+    
+    navigate('SchedulingDetails', {
+      car,
+      dates: Object.keys(markedDates)
+    })
+    
+  }, [markedDates])
 
   function handleChangeDate(date: DayProps) {
     let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
@@ -112,7 +110,7 @@ export function Scheduling({ navigation: { navigate, goBack } }: any){
       </Content>
 
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirmRental} />
+        <Button title="Confirmar" onPress={handleConfirmRental} enabled={!!rentalPeriod.startFormatted} />
       </Footer>
 
 

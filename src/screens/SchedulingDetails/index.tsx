@@ -53,38 +53,57 @@ interface RentalPeriodProps {
 
 export function SchedulingDetails({ navigation: { navigate, goBack } }: any){
   const theme = useTheme()
+  const [loading, setLoading] = useState(false)
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodProps>({} as RentalPeriodProps)
   
   const route = useRoute()
   const { car, dates } = route.params as Params
+  
 
   const rentTotal = Number(dates.length * car.rent.price)
 
   const handleConfirm = useCallback(async () => {
+    setLoading(true)
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`)
 
     const newDates = dates.map((date) => format(parseISO(date), 'yyyy-MM-dd'))
+
+    const newStart =  format(getPlatformDate(parseISO(dates[0])), 'dd/MM/yyyy')
+    const newEnd = format(getPlatformDate(parseISO(dates[dates.length - 1])), 'dd/MM/yyyy')
     
     const unavailable_dates = [
       ...schedulesByCar.data.unavailable_dates,
       ...newDates
     ]
 
+    await api.post('schedules_byuser', {
+      user_id:1,
+      car,
+      startDate: newStart,
+      endDate: newEnd
+    })
+
     api.put(`/schedules_bycars/${car.id}`, {
       id: car.id,
       unavailable_dates
-    }).then(() => navigate('SchedulingComplete')).catch(() => Alert.alert("Não foi possível confirmar o agendamento"))   
+    }).then(() => navigate('SchedulingComplete')).catch(() =>{ 
+      Alert.alert("Não foi possível confirmar o agendamento")
+      setLoading(false)
+    })   
 
   }, [car, dates])
 
   useEffect(() => {
-    const newStart = parseISO(dates[0])
-    const newEnd = parseISO(dates[dates.length - 1])
-    setRentalPeriod({
-      start: format(getPlatformDate(newStart), 'dd/MM/yyyy'),
-      end: format(getPlatformDate(newEnd), 'dd/MM/yyyy')
-    })
-  }, [])
+    if(dates.length > 0){
+
+      const newStart = parseISO(dates[0])
+      const newEnd = parseISO(dates[dates.length - 1])
+      setRentalPeriod({
+        start: format(getPlatformDate(newStart), 'dd/MM/yyyy'),
+        end: format(getPlatformDate(newEnd), 'dd/MM/yyyy')
+      })
+    }
+  }, [dates])
 
   return (
     <Container>
@@ -141,7 +160,7 @@ export function SchedulingDetails({ navigation: { navigate, goBack } }: any){
 
       </Content>
       <Footer>
-        <Button title="Alugar agorar" onPress={handleConfirm} color={theme.colors.success.primary} />
+        <Button title="Alugar agorar" onPress={handleConfirm} color={theme.colors.success.primary} enabled={!loading} loading={loading} />
       </Footer>
     </Container>
   );
