@@ -1,7 +1,8 @@
-import React from 'react';
-import { RectButtonProps } from 'react-native-gesture-handler';
-import { CarDTO } from '../../dtos/CarDTO';
-import GasolineSvg from '../../assets/gasoline.svg'
+import React from "react";
+import { RectButtonProps } from "react-native-gesture-handler";
+import { CarDTO } from "../../dtos/CarDTO";
+import { Car as ModelCar } from "../../database/models/Car";
+// import GasolineSvg from '../../assets/gasoline.svg'
 
 import {
   Container,
@@ -14,17 +15,17 @@ import {
   Price,
   Type,
   CarImage,
-} from './styles';
-import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-
-
+} from "./styles";
+import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 interface Props extends RectButtonProps {
-  data: CarDTO;
+  data: ModelCar;
 }
 
-export function Car({ data, ...rest }: Props){
-  const MotorIcon = getAccessoryIcon(data.fuel_type)
+export function Car({ data, ...rest }: Props) {
+  const MotorIcon = getAccessoryIcon(data.fuel_type);
+  const netInfo = useNetInfo();
 
   return (
     <Container {...rest}>
@@ -35,18 +36,18 @@ export function Car({ data, ...rest }: Props){
         <About>
           <Rent>
             <Period>{data.period}</Period>
-            <Price>{`R$ ${data.price}`}</Price>
+            <Price>{`R$ ${
+              netInfo.isConnected === true ? data.price : "..."
+            }`}</Price>
           </Rent>
 
           <Type>
             <MotorIcon />
           </Type>
         </About>
-
       </Details>
 
-      <CarImage source={{ uri: data.thumbnail}} resizeMode="contain" />
-
+      <CarImage source={{ uri: data.thumbnail }} resizeMode="contain" />
     </Container>
   );
 }
